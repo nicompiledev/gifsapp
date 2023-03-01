@@ -44,7 +44,7 @@ export class GifsService {
     // })
 
     // Realizo la petición HTTP usando HttpClient
-    this.http.get('https://api.giphy.com/v1/gifs/search?api_key=wI6mxBQxdhYKpG9NZTQAwOHPIRHBUDXG&q=gears of war&limit=10')
+    this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=wI6mxBQxdhYKpG9NZTQAwOHPIRHBUDXG&q=${query}&limit=10`)
     .subscribe((resp:any) => {
       console.log(resp.data);
     })
