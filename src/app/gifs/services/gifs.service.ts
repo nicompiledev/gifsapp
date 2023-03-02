@@ -7,10 +7,10 @@ import { HttpClient } from '@angular/common/http';
 export class GifsService {
 
   private apiKey: string = 'wI6mxBQxdhYKpG9NZTQAwOHPIRHBUDXG'
-
-
   private _historial: string[] = [];
 
+  //Cambiar any por su tipo correspondiente
+  public results: any[] = [];
 
   get historial() {
     return [...this._historial];
@@ -44,9 +44,10 @@ export class GifsService {
     // })
 
     // Realizo la petición HTTP usando HttpClient
-    this.http.get('https://api.giphy.com/v1/gifs/search?api_key=wI6mxBQxdhYKpG9NZTQAwOHPIRHBUDXG&q=gears of war&limit=10')
+    this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${query}&limit=10`)
     .subscribe((resp:any) => {
       console.log(resp.data);
+      this.results = resp.data;
     })
 
 
