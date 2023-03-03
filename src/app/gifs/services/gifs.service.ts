@@ -1,12 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment'; // Importar environment
+
+
 
 @Injectable({
   providedIn: 'root',
 })
 export class GifsService {
 
-  private apiKey: string = 'wI6mxBQxdhYKpG9NZTQAwOHPIRHBUDXG'
+  //API KEY de Giphy hardcodeada
+  // private apiKey: string = 'wI6mxBQxdhYKpG9NZTQAwOHPIRHBUDXG'
+
+  // API KEY de Giphy obtenida desde la variable de entorno, desde el archivo environment.ts
+  private apiKey: string = environment.apiKey;
+
+
   private _historial: string[] = [];
 
   //Cambiar any por su tipo correspondiente
