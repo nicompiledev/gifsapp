@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment'; // Importar environment
+import { SearchGifsResponse, Gif } from '../interface/gifs.interface';
 
 
 
@@ -19,7 +20,8 @@ export class GifsService {
   private _historial: string[] = [];
 
   //Cambiar any por su tipo correspondiente
-  public results: any[] = [];
+  // Se modifica el tipo de dato de la propiedad results, de any a Gif[], basado en el tipo de dato de la interfaz Gif proporcionada por el servicio de https://app.quicktype.io/ para convertir JSON a TypeScript interfaces y clases de forma automática y rápida 
+  public results: Gif[] = [];
 
   get historial() {
     return [...this._historial];
@@ -53,10 +55,11 @@ export class GifsService {
     // })
 
     // Realizo la petición HTTP usando HttpClient
-    this.http.get(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${query}&limit=10`)
-    .subscribe((resp:any) => {
+    this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${query}&limit=10`)
+    .subscribe((resp) => {
       console.log(resp.data);
       this.results = resp.data;
+      resp.pagination.
     })
 
 
