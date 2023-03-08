@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment'; // Importar environment
 import { SearchGifsResponse, Gif } from '../interface/gifs.interface';
 
@@ -16,7 +16,9 @@ export class GifsService {
   // API KEY de Giphy obtenida desde la variable de entorno, desde el archivo environment.ts
   private apiKey: string = environment.apiKey;
 
+  private apiUrl: string = 'https://api.giphy.com/v1/gifs'
 
+  // Cambiar any por su tipo correspondiente
   private _historial: string[] = [];
 
   //Cambiar any por su tipo correspondiente
@@ -77,8 +79,12 @@ export class GifsService {
     //   })
     // })
 
+    const params = new HttpParams().set('api_key', this.apiKey).set('limit', '10').set('q', queryWithOffset);
+
+    console.log(params.toString());
+
     // Realizo la petición HTTP usando HttpClient
-    this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${queryWithOffset}&limit=10`)
+    this.http.get<SearchGifsResponse>(`${this.apiUrl}/search?api_key=${this.apiKey}&q=${queryWithOffset}&limit=10`)
     .subscribe((resp) => {
       console.log(resp.data);
       this.results = resp.data;
