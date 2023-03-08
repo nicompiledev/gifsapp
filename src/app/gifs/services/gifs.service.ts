@@ -46,6 +46,12 @@ export class GifsService {
     // Convierto a minúsculas el query
     query = query.toLowerCase();
 
+    // Generar un número aleatorio entre 0 y 100 (puede ajustarse según las necesidades)
+    const offset = Math.floor(Math.random() * 100);
+
+    // Agrego el offset al query
+    const queryWithOffset = `${query}&offset=${offset}`;
+
     // Agrego el query al historial si no existe ya, y limito el historial a 10 elementos
     if( !this._historial.includes(query) ) {
       this._historial.unshift(query);
@@ -72,7 +78,7 @@ export class GifsService {
     // })
 
     // Realizo la petición HTTP usando HttpClient
-    this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${query}&limit=10`)
+    this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=${this.apiKey}&q=${queryWithOffset}&limit=10`)
     .subscribe((resp) => {
       console.log(resp.data);
       this.results = resp.data;
