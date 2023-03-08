@@ -29,11 +29,15 @@ export class GifsService {
 
   constructor( private http: HttpClient ) {
 
-    
+    // Si existe el historial en el localStorage, lo asigno a la propiedad _historial, sino asigno un array vacío
     this._historial = JSON.parse(localStorage.getItem('historial')!) || []
     // if(localStorage.getItem('historial')){
     //   this._historial = JSON.parse( localStorage.getItem('historial')!)
     // }
+
+    // Obtener los resultados de la ultima busqueda del localStorage
+    this.results = JSON.parse(localStorage.getItem('resultados')!) || []
+
 
   }
 
@@ -46,6 +50,11 @@ export class GifsService {
     if( !this._historial.includes(query) ) {
       this._historial.unshift(query);
       this._historial.splice(10);
+
+      // Guardo el historial en el localStorage
+      localStorage.setItem('historial', JSON.stringify(this._historial));
+
+
     }
 
     // Limito el historial a 10
@@ -68,11 +77,13 @@ export class GifsService {
       console.log(resp.data);
       this.results = resp.data;
 
+      // Guardar los resultados de la busqueda actual en el localStorage
+      localStorage.setItem('resultados', JSON.stringify(this.results));
+
     })
 
 
-    // Guardo el historial en el localStorage
-    localStorage.setItem('historial', JSON.stringify(this._historial));
+
 
   }
 
