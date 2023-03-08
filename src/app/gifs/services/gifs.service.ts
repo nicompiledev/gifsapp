@@ -20,14 +20,22 @@ export class GifsService {
   private _historial: string[] = [];
 
   //Cambiar any por su tipo correspondiente
-  // Se modifica el tipo de dato de la propiedad results, de any a Gif[], basado en el tipo de dato de la interfaz Gif proporcionada por el servicio de https://app.quicktype.io/ para convertir JSON a TypeScript interfaces y clases de forma automática y rápida 
+  // Se modifica el tipo de dato de la propiedad results, de any a Gif[], basado en el tipo de dato de la interfaz Gif proporcionada por el servicio de https://app.quicktype.io/ para convertir JSON a TypeScript interfaces y clases de forma automática y rápida
   public results: Gif[] = [];
 
   get historial() {
     return [...this._historial];
   }
 
-  constructor( private http: HttpClient ) {}
+  constructor( private http: HttpClient ) {
+
+    
+    this._historial = JSON.parse(localStorage.getItem('historial')!) || []
+    // if(localStorage.getItem('historial')){
+    //   this._historial = JSON.parse( localStorage.getItem('historial')!)
+    // }
+
+  }
 
   buscarGifs(query: string ) {
 
@@ -59,7 +67,7 @@ export class GifsService {
     .subscribe((resp) => {
       console.log(resp.data);
       this.results = resp.data;
-      resp.pagination.
+
     })
 
 
