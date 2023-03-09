@@ -16,7 +16,7 @@ export class GifsService {
   // API KEY de Giphy obtenida desde la variable de entorno, desde el archivo environment.ts
   private apiKey: string = environment.apiKey;
 
-  private apiUrl: string = 'https://api.giphy.com/v1/gifs'
+  private apiUrl: string = environment.apiUrl;
 
   // Cambiar any por su tipo correspondiente
   private _historial: string[] = [];
@@ -52,7 +52,7 @@ export class GifsService {
     const offset = Math.floor(Math.random() * 100);
 
     // Agrego el offset al query
-    const queryWithOffset = `${query}&offset=${offset}`;
+    const queryWithOffset = `${query}&api_key=${this.apiKey}&offset=${offset}`;
 
     // Agrego el query al historial si no existe ya, y limito el historial a 10 elementos
     if( !this._historial.includes(query) ) {
@@ -79,14 +79,14 @@ export class GifsService {
     //   })
     // })
 
-    const params = new HttpParams().set('api_key', this.apiKey).set('limit', '10').set('q', queryWithOffset);
+    const params = new HttpParams().set('api_key', this.apiKey).set('limit', '10').set('q', query).set('offset', offset.toString());
 
-    console.log(params.toString());
+    //console.log(params.toString());
 
     // Realizo la petición HTTP usando HttpClient
-    this.http.get<SearchGifsResponse>(`${this.apiUrl}/search?api_key=${this.apiKey}&q=${queryWithOffset}&limit=10`)
+    this.http.get<SearchGifsResponse>(`${this.apiUrl}/search`,{ params: params})
     .subscribe((resp) => {
-      console.log(resp.data);
+      //console.log(resp.data);
       this.results = resp.data;
 
       // Guardar los resultados de la busqueda actual en el localStorage
